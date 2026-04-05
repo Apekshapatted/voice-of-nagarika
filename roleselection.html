@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Role - Voice of Nagarika</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to right, #d6ecff, #eaf6ff);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .title {
+            font-size: 36px;
+            font-weight: bold;
+            color: #003366;
+            margin-bottom: 40px;
+        }
+
+        .cards {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .card {
+            background-color: white;
+            padding: 30px;
+            width: 220px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+        }
+
+        .icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        .role {
+            font-size: 20px;
+            font-weight: bold;
+            color: #0077b6;
+            margin-bottom: 10px;
+        }
+
+        .desc {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .btn {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #0077b6;
+            color: white;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #005f87;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <div class="title">Select Your Role</div>
+
+    <div class="cards">
+
+        <div class="card">
+            <div class="icon">👤</div>
+            <div class="role">Citizen</div>
+            <div class="desc">Submit complaints and track status</div>
+            <button class="btn" onclick="window.location.href='/citizendetails'">
+                Continue
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="icon">🏢</div>
+            <div class="role">Authority</div>
+            <div class="desc">Manage and resolve complaints</div>
+            <button class="btn" onclick="window.location.href='/authoritydetails'">
+                Continue
+            </button>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
