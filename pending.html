@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Smart City Authority Dashboard</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background:#d6ecff;
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:250px;
+    background:white;
+    padding:20px;
+    box-shadow:0 6px 15px rgba(0,0,0,0.1);
+}
+
+.sidebar h2{
+    margin-bottom:30px;
+    font-size:22px;
+    color:#0077b6;
+}
+
+/* MENU */
+.menu-item{
+    padding:12px;
+    margin-bottom:12px;
+    border-radius:8px;
+    cursor:pointer;
+    background:#eaf6ff;
+    color:#0077b6;
+    display:flex;
+    justify-content:space-between;
+}
+
+.menu-item:hover{
+    background:#d6ecff;
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    padding:25px;
+}
+
+/* TOPBAR */
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.topbar h1{
+    color:#0077b6;
+}
+
+.notification{
+    background:white;
+    padding:10px 15px;
+    border-radius:8px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* PROFILE */
+.profile{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    background:white;
+    padding:15px;
+    border-radius:10px;
+    margin-bottom:20px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.profile img{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+}
+
+.status-badge{
+    display:inline-block;
+    margin-top:5px;
+    padding:5px 10px;
+    border-radius:20px;
+    font-size:12px;
+    background:#d6ecff;
+    color:#0077b6;
+}
+
+/* CARDS */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:20px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.card h3{
+    color:#0077b6;
+}
+
+.card p{
+    font-size:24px;
+    font-weight:bold;
+}
+
+/* TABLE */
+.table-container{
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th, td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    color:#0077b6;
+}
+
+.empty{
+    text-align:center;
+    padding:20px;
+    color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h2>Authority Panel</h2>
+
+    <!-- ✅ FULL MENU ADDED -->
+    <div class="menu-item">
+        <span>Dashboard</span>
+    </div>
+
+    <div class="menu-item">
+        <span>Pending</span>
+        <span id="sidebarCount">0</span>
+    </div>
+
+    <div class="menu-item">
+        <span>High Priority</span>
+    </div>
+
+    <div class="menu-item">
+        <span>All Complaints</span>
+    </div>
+
+    <div class="menu-item">
+        <span>Settings</span>
+    </div>
+
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+        <h1>Pending Complaints Dashboard</h1>
+        <div class="notification">
+            Notifications: <strong id="topbarNotify">0</strong>
+        </div>
+    </div>
+
+    <!-- PROFILE -->
+    <div class="profile">
+        <img id="profileImage" src="https://cdn-icons-png.flaticon.com/512/149/149071.png">
+        <div>
+            <h3 id="profileName">Guest Authority</h3>
+            <p id="profileRole">Not Connected</p>
+            <span class="status-badge" id="statusBadge">Offline</span>
+        </div>
+    </div>
+
+    <!-- CARDS -->
+    <div class="cards">
+        <div class="card">
+            <h3>Pending Complaints</h3>
+            <p id="pendingCount">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Complaint ID</h3>
+            <p id="complaintId">null</p>
+        </div>
+
+        <div class="card">
+            <h3>Priority</h3>
+            <p id="priorityValue">0</p>
+        </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Issue</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Area</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr>
+                    <td colspan="5" class="empty">No records found</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+const apiData = [];
+
+// Elements
+const profileName = document.getElementById("profileName");
+const profileRole = document.getElementById("profileRole");
+const pendingCount = document.getElementById("pendingCount");
+const sidebarCount = document.getElementById("sidebarCount");
+const topbarNotify = document.getElementById("topbarNotify");
+const complaintId = document.getElementById("complaintId");
+const priorityValue = document.getElementById("priorityValue");
+const tableBody = document.getElementById("tableBody");
+const statusBadge = document.getElementById("statusBadge");
+
+function renderDashboard(data) {
+    if (!data.length) {
+        profileName.textContent = "Guest Authority";
+        profileRole.textContent = "Not Connected";
+        pendingCount.textContent = "0";
+        sidebarCount.textContent = "0";
+        topbarNotify.textContent = "0";
+        complaintId.textContent = "null";
+        priorityValue.textContent = "0";
+        statusBadge.textContent = "Offline";
+
+        tableBody.innerHTML =
+            "<tr><td colspan='5' class='empty'>No records found</td></tr>";
+    }
+}
+
+renderDashboard(apiData);
+</script>
+
+</body>
+</html>
