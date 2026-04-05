@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authority Details - Voice of Nagarika</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #d6ecff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            width: 340px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .title {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #0077b6;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: 1px solid #cce7ff;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0077b6;
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #0077b6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #005f87;
+        }
+
+        .secondary-btn {
+            width: 100%;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .secondary-btn:hover {
+            background-color: #c1121f;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="form-container">
+        <div class="title">Authority Registration</div>
+
+        <form method="POST" action="/authority_register">
+
+            <input type="text" name="name" placeholder="Full Name" required>
+
+            <input type="text" name="role" placeholder="Role" required>
+
+            <input type="text" name="department" placeholder="Department" required>
+
+            <input type="text" name="employee_id" placeholder="Employee ID" required>
+
+            <input type="tel" name="contact" placeholder="Contact Number" required>
+
+            <button type="submit" class="btn">Submit</button>
+
+        </form>
+
+        <button class="secondary-btn"
+                onclick="window.location.href='/authority'">
+            View High Priority Complaints
+        </button>
+    </div>
+
+</body>
+</html>
