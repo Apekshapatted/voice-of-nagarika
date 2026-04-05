@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice of Nagarika</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #d6ecff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .content {
+            color: #003366;
+        }
+
+        .icon {
+            width: 160px;
+            height: 160px;
+            margin-bottom: 15px;
+        }
+
+        .title {
+            font-size: 42px;
+            font-style: italic;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 20px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            background-color: #0077b6;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #005f87;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="content">
+        <img 
+            src="{{ url_for('static', filename='images/icon.png') }}" 
+            alt="Voice of Nagarika Icon"
+            class="icon"
+        >
+
+        <div class="title">VOICE OF NAGARIKA</div>
+        <div class="tagline">Sada Nimma Sevege</div>
+
+        <button class="btn" onclick="goToSignup()">
+            Register Complaint
+        </button>
+    </div>
+
+    <script>
+        function goToSignup() {
+            window.location.href = "{{ url_for('signup') }}";
+        }
+    </script>
+
+</body>
+</html>
