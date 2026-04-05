@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>High Priority Complaints</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex min-h-screen">
+
+<!-- Sidebar -->
+<div class="w-64 bg-blue-700 text-white p-5 shadow-lg">
+    <h2 class="text-2xl font-bold mb-6 text-center">Authority Panel</h2>
+
+    <nav class="space-y-4">
+        <a href="authority.html" class="block p-2 hover:bg-blue-800 rounded">
+            Dashboard
+        </a>
+
+        <a href="pending.html" class="block p-2 hover:bg-blue-800 rounded">
+            Pending
+        </a>
+
+        <a href="highpriority.html"
+           class="block p-2 bg-blue-900 rounded font-semibold">
+            High Priority
+        </a>
+
+        <a href="authority.html"
+           class="block p-2 hover:bg-blue-800 rounded">
+            All Complaints
+        </a>
+    </nav>
+</div>
+
+<!-- Main -->
+<div class="flex-1 p-6">
+    <h1 class="text-3xl font-bold text-center text-blue-900 mb-6">
+        High Priority Complaints 🚨
+    </h1>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow rounded-lg overflow-hidden">
+            <thead class="bg-blue-700 text-white">
+                <tr>
+                    <th class="py-3 px-4">ID</th>
+                    <th class="py-3 px-4">Description</th>
+                    <th class="py-3 px-4">Category</th>
+                    <th class="py-3 px-4">Priority</th>
+                    <th class="py-3 px-4">Location</th>
+                    <th class="py-3 px-4">Status</th>
+                    <th class="py-3 px-4">Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="tableBody" class="text-center"></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+
+let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+
+function loadComplaints() {
+    const tableBody = document.getElementById("tableBody");
+    tableBody.innerHTML = "";
+
+    let highPriorityComplaints = complaints.filter(
+        c => c.priority === "High"
+    );
+
+    if (highPriorityComplaints.length === 0) {
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" class="py-4">
+                    No high priority complaints found.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    highPriorityComplaints.forEach(item => {
+        const row = `
+            <tr class="hover:bg-gray-100">
+                <td class="py-2 px-4">#${item.id}</td>
+                <td class="py-2 px-4">${item.desc}</td>
+                <td class="py-2 px-4">${item.category}</td>
+                <td class="py-2 px-4 text-red-600 font-bold">
+                    ${item.priority}
+                </td>
+                <td class="py-2 px-4">${item.location || "-"}</td>
+                <td class="py-2 px-4">${item.status}</td>
+                <td class="py-2 px-4 space-x-1">
+                    <button class="bg-yellow-500 text-white px-3 py-1 rounded"
+                        onclick="markProgress(${item.id})">
+                        In Progress
+                    </button>
+
+                    <button class="bg-green-600 text-white px-3 py-1 rounded"
+                        onclick="resolveComplaint(${item.id})">
+                        Resolve
+                    </button>
+
+                    <button class="bg-red-600 text-white px-3 py-1 rounded"
+                        onclick="escalateComplaint(${item.id})">
+                        Escalate
+                    </button>
+                </td>
+            </tr>
+        `;
+
+        tableBody.innerHTML += row;
+    });
+}
+
+function updateComplaintStatus(id, newStatus) {
+    complaints = complaints.map(c => {
+        if (c.id === id) {
+            c.status = newStatus;
+        }
+        return c;
+    });
+
+    localStorage.setItem("complaints", JSON.stringify(complaints));
+    loadComplaints();
+}
+
+function markProgress(id) {
+    updateComplaintStatus(id, "In Progress");
+}
+
+function resolveComplaint(id) {
+    updateComplaintStatus(id, "Resolved");
+}
+
+function escalateComplaint(id) {
+    alert("Complaint escalated to higher authority");
+}
+
+window.onload = loadComplaints;
+
+</script>
+
+</body>
+</html>
