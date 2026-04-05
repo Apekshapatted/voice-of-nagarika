@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Smart City Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif
+}
+
+body{
+  background:#f5f7fb;
+  display:flex
+}
+
+/* Sidebar */
+.sidebar{
+  width:260px;
+  height:100vh;
+  background:#fff;
+  padding:20px;
+  border-radius:0 15px 15px 0;
+  box-shadow:2px 0 10px rgba(0,0,0,0.05);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between
+}
+
+.logo{
+  font-size:20px;
+  font-weight:600;
+  color:#3b82f6;
+  margin-bottom:30px;
+}
+
+/* Menu */
+.menu li{
+  list-style:none;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:10px;
+  cursor:pointer
+}
+
+.menu li:hover{
+  background:#f0f4ff
+}
+
+.menu .active{
+  background:#3b82f6;
+  color:#fff
+}
+
+/* Logout */
+.logout{
+  padding:12px;
+  background:#fef2f2;
+  border-radius:10px;
+  text-align:center;
+  color:#ef4444;
+  cursor:pointer
+}
+
+/* Main */
+.main{
+  flex:1;
+  padding:20px
+}
+
+/* Topbar */
+.topbar{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:20px
+}
+
+.search{
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  background:#fff;
+  width:250px;
+}
+
+/* Cards */
+.cards{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:20px
+}
+
+.card{
+  padding:20px;
+  border-radius:15px;
+  color:#fff
+}
+
+.yellow{background:#facc15}
+.red{background:#ef4444}
+.blue{background:#3b82f6}
+.green{background:#22c55e}
+
+/* Table */
+.table-section{
+  background:#fff;
+  padding:20px;
+  border-radius:15px
+}
+
+table{
+  width:100%;
+  border-collapse:collapse
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid #eee
+}
+
+/* Badges */
+.badge{
+  padding:5px 10px;
+  border-radius:8px;
+  font-size:12px
+}
+
+.medium{
+  background:#fde68a;
+  color:#92400e
+}
+
+.high{
+  background:#fecaca;
+  color:#7f1d1d
+}
+
+.pending{
+  background:#fed7aa;
+  color:#9a3412
+}
+
+/* Right panel */
+.right-panel{
+  width:260px;
+  background:#fff;
+  padding:20px
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+  <div>
+    <div class="logo">AI Smart City</div>
+
+    <ul class="menu">
+      <li class="active" onclick="goToDashboard()">Dashboard</li>
+      <li onclick="goToPending()">Pending</li>
+      <li onclick="goToHighPriority()">High Priority</li>
+      <li onclick="goToAllComplaints()">All Complaints</li>
+    </ul>
+  </div>
+
+  <div class="logout" onclick="logout()">Log Out</div>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+<div class="topbar">
+  <input id="search" class="search" placeholder="Search complaints...">
+</div>
+
+<h2>Authority Dashboard</h2>
+
+<div class="cards">
+  <div class="card yellow"><h3 id="pending">0</h3><p>Pending</p></div>
+  <div class="card red"><h3 id="high">0</h3><p>High Priority</p></div>
+  <div class="card blue"><h3 id="progress">0</h3><p>In Progress</p></div>
+  <div class="card green"><h3 id="resolved">0</h3><p>Resolved</p></div>
+</div>
+
+<div class="table-section">
+<h3>Complaints</h3>
+
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Type</th>
+<th>Description</th>
+<th>Location</th>
+<th>Priority</th>
+<th>Status</th>
+</tr>
+</thead>
+
+<tbody id="tableBody">
+<tr><td colspan="6">Complaints will be loaded from Flask</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div class="right-panel">
+<h3>Complaint Overview</h3>
+<div id="alerts"></div>
+</div>
+
+<script>
+function logout(){
+  window.location.href = "/logout";
+}
+
+function goToDashboard(){
+  window.location.href = "/authority";
+}
+
+function goToPending(){
+  window.location.href = "/pending";
+}
+
+function goToHighPriority(){
+  window.location.href = "/highpriority";
+}
+
+function goToAllComplaints(){
+  window.location.href = "/allcomplaints";
+}
+
+search.addEventListener("input",()=>{
+  const val=search.value.toLowerCase();
+  document.querySelectorAll("#tableBody tr").forEach(r=>{
+    r.style.display=r.innerText.toLowerCase().includes(val)?"":"none";
+  });
+});
+</script>
+
+</body>
+</html>
