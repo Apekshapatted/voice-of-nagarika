@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart City</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="flex min-h-screen">
+
+  <!-- Sidebar -->
+  <div class="w-64 bg-white shadow-lg p-5">
+    <h2 class="text-xl font-bold mb-6">AI Smart City</h2>
+
+    <ul class="space-y-4">
+      <li class="text-blue-500 font-semibold cursor-pointer">Dashboard</li>
+      <li onclick="goToMyComplaints()" class="cursor-pointer hover:text-blue-500">
+        My Complaints
+      </li>
+      <li class="cursor-pointer">Notifications</li>
+      <li onclick="goToProfile()" class="cursor-pointer hover:text-blue-500">
+        Profile
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main -->
+  <div class="flex-1 p-6">
+
+    <div class="mb-6">
+      <h2 class="text-2xl font-bold">Submit a Complaint</h2>
+    </div>
+
+    <div class="grid grid-cols-3 gap-6">
+
+      <!-- FORM -->
+      <div class="col-span-2 bg-white p-5 rounded-xl shadow">
+
+        <form action="/submit_complaint" method="POST">
+
+          <p class="font-semibold mb-2">Complaint Type</p>
+
+          <div class="grid grid-cols-4 gap-3 mb-4 text-center text-sm">
+            <div onclick="selectType('Roads')" class="cursor-pointer border p-2 rounded hover:bg-blue-100">🚧<br>Roads</div>
+            <div onclick="selectType('Garbage')" class="cursor-pointer border p-2 rounded hover:bg-blue-100">🗑️<br>Garbage</div>
+            <div onclick="selectType('Drain')" class="cursor-pointer border p-2 rounded hover:bg-blue-100">🚰<br>Drain</div>
+            <div onclick="selectType('Street Light')" class="cursor-pointer border p-2 rounded hover:bg-blue-100">💡<br>Lights</div>
+            <div onclick="selectType('Mosquito')" class="cursor-pointer border p-2 rounded hover:bg-blue-100">🦟<br>Mosquito</div>
+            <div onclick="selectType('Stray Animals')" class="cursor-pointer border p-2 rounded hover:bg-blue-100">🐕<br>Animals</div>
+            <div onclick="selectType('Health')" class="cursor-pointer border p-2 rounded hover:bg-blue-100">🏥<br>Health</div>
+            <div onclick="selectType('Other')" class="cursor-pointer border p-2 rounded hover:bg-blue-100">➕<br>Other</div>
+          </div>
+
+          <p class="mb-2">
+            Selected:
+            <span id="selectedType" class="font-semibold text-blue-600">None</span>
+          </p>
+
+          <input type="hidden" id="complaint_type" name="complaint_type">
+
+          <textarea name="description" id="desc"
+            class="w-full border p-2 mb-3 rounded"
+            placeholder="Description" required></textarea>
+
+          <input name="location" id="loc"
+            class="w-full border p-2 mb-3 rounded"
+            placeholder="Location" required>
+
+          <label class="block mb-1 font-semibold">Reported Date</label>
+          <input type="date" name="reported_date"
+            class="w-full border p-2 mb-3 rounded" required>
+
+          <label class="block mb-1 font-semibold">Reported Time</label>
+          <input type="time" name="reported_time"
+            class="w-full border p-2 mb-3 rounded" required>
+
+          <button type="submit"
+            class="bg-blue-500 text-white w-full py-2 rounded-lg">
+            Submit Complaint
+          </button>
+
+        </form>
+
+      </div>
+
+      <!-- STATUS PANEL -->
+      <div class="bg-white p-5 rounded-xl shadow">
+        <h3 class="font-bold mb-3">Complaint Status</h3>
+
+        <p class="text-gray-500">Current Status</p>
+        <p id="statusText" class="font-semibold">Pending after submit</p>
+
+        <p class="text-gray-500 mt-4">Priority</p>
+        <p id="priorityText">AI Based</p>
+
+        <p class="text-gray-500 mt-4">Category</p>
+        <p id="categoryText">Selected Type</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+let selectedType = "None";
+
+function selectType(type) {
+  selectedType = type;
+  document.getElementById("selectedType").innerText = type;
+  document.getElementById("complaint_type").value = type;
+}
+
+function goToMyComplaints() {
+  window.location.href = "/mycomplaints";
+}
+
+function goToProfile() {
+  window.location.href = "/profile";
+}
+</script>
+
+</body>
+</html>
